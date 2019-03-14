@@ -1,7 +1,11 @@
 package com.bupt.account.service;
 
-import com.bupt.account.model.User;
+import com.bupt.account.dataobject.UserInfo;
+import com.bupt.account.enums.LoginReturn;
+import com.bupt.account.enums.RegisterReturn;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -18,24 +22,23 @@ import java.util.List;
  */
 
 public interface UserService {
+
    /**
-    * 通过id找用户
-    * @param id
-    * @return User
+    *登陆认证
     */
-   User findById(Long id);
+   LoginReturn loginAuthentication(String openid, String password,String uuid);
 
    /**
     * 创建用户
     * @param user
     */
-   void create(User user);
+   RegisterReturn create(UserInfo user);
 
    /**
     * 更新用户
     * @param user
     */
-   void update(User user);
+   void update(UserInfo user);
 
    /**
     * 删除用户
@@ -47,5 +50,10 @@ public interface UserService {
     * 获取所有用户
     * @return List<User>
     */
-   List<User> getAll();
+   List<UserInfo> getAll();
+
+   /**
+    * 保存数据
+    */
+   void save();
 }

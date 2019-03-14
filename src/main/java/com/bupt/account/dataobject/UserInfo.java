@@ -2,9 +2,8 @@ package com.bupt.account.dataobject;
 
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
@@ -14,10 +13,11 @@ public class UserInfo {
 
     /**自增主键id*/
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal id;
 
-    /**open_id*/
-    private String open_id;
+    /**主键open_id*/
+    private String openid;
 
     /**密码*/
     private String password;
@@ -30,9 +30,6 @@ public class UserInfo {
 
     /**电话*/
     private String phone;
-
-    /**uid*/
-    private String uid;
 
     /**三个附加段 目前无用*/
     private String add1;

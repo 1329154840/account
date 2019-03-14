@@ -1,13 +1,25 @@
 package com.bupt.account.service.impl;
 
 import com.bupt.account.Respository.UserInfoRespository;
-import com.bupt.account.model.User;
+import com.bupt.account.constant.CookieConstant;
+import com.bupt.account.constant.RedisConstant;
+import com.bupt.account.dataobject.UserInfo;
+import com.bupt.account.enums.LoginReturn;
+import com.bupt.account.enums.RegisterReturn;
 import com.bupt.account.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,34 +34,62 @@ import java.util.List;
  * @since 1.0-SNAPSHOT
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserInfoRespository userInfoRespository ;
+    private UserInfoRespository userInfoRespository;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Override
-    @Transactional
-    public void create(User user) {
-        userMapper.create(user);
+    public LoginReturn loginAuthentication(String openid, String password,String uuid) {
+        UserInfo userInfo = userInfoRespository.findUserInfoByOpenid(openid);
+        if(userInfo!=null && userInfo.getPassword().equals(password)){ //账号密码正确
+            //写入redis
+            Integer expire = CookieConstant.expire;
+            stringRedisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_TEMPLATE,uuid),
+                    openid,
+                    expire,
+                    TimeUnit.SECONDS);
+            return LoginReturn.OK;
+        }else { //登陆失败
+            return LoginReturn.FAIL;
+        }
     }
 
     @Override
-    public void update(User user) {
-        userMapper.update(user);
+    @Transactional
+    public RegisterReturn create(UserInfo user) {
+        //查询openid是否重复
+        UserInfo userInfo = userInfoRespository.findUserInfoByOpenid(user.getOpenid());
+        if(userInfo==null) {
+            userInfoRespository.save(user);
+            return RegisterReturn.OK;
+        }else {
+            return RegisterReturn.REPEAT;
+        }
+    }
+
+    @Override
+    public void update(UserInfo user) {
+
     }
 
     @Override
     public void delete(Long id) {
-        userMapper.delete(id);
+
     }
 
     @Override
-    public User findById(Long id) {
-        return userMapper.findById(id);
+    public List<UserInfo> getAll() {
+        return null;
     }
 
     @Override
-    public List<User> getAll() {
-        return userMapper.getAll();
+    public void save() {
+
     }
+
 }

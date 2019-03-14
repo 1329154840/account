@@ -20,9 +20,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
+   /* @PostMapping("/create")
     public ResultVO<Map<String, String>> create(@Valid OrderForm orderForm,
                                                 BindingResult bindingResult){
 
-    }
+    }*/
 }
