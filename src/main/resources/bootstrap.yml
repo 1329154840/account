@@ -11,6 +11,6 @@ eureka:
       defaultZone: http://114.115.130.42:8761/eureka/
   instance:
     prefer-ip-address: true
-    instance-id: 152.136.94.85:8081
+    instance-id: 127.0.0.1:8082
 server:
-  port: 8081
+  port: 8082

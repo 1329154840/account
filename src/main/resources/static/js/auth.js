@@ -157,9 +157,9 @@ function login_Form(form){
 		success : function(data) {
 			if (data){
 				if (data.code == "1"){
-					alert(data.msg);
-					//window.location.href = "/";
-					//window.event.returnValue=false;
+					// alert(data.msg);
+					window.location.href = "/home";
+					window.event.returnValue=false;
 					return true;
 				}else {
 					alert(data.msg);//显示登录失败的原因
@@ -169,6 +169,7 @@ function login_Form(form){
 		},
 		error : function(data){
 			alert(data.msg);
+
 		}
 	});
 
