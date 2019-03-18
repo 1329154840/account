@@ -38,7 +38,7 @@ public class LoginController {
      * 登录校验，成功写入将token，写入redis
      * @param name
      * @param password
-     * @param response11111
+     * @param response
      * @return
      */
     @PostMapping("/login")
