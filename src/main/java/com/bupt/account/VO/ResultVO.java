@@ -3,11 +3,14 @@ package com.bupt.account.VO;
 import lombok.Data;
 
 @Data
-public class ResultVO {
+public class ResultVO<T> {
 
     private Integer code;
 
     private String msg;
 
-    private String action;
+    /**
+     * 具体内容
+     */
+    private T data;
 }

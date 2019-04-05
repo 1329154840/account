@@ -30,7 +30,8 @@ public class UserInfo {
 
     /**电话*/
     private String phone;
-
+    /**类型 0管理员 1普通用户*/
+    private int type;
     /**三个附加段 目前无用*/
     private String add1;
     private String add2;

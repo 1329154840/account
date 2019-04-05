@@ -9,5 +9,5 @@ public interface CookieConstant {
     /**
      * 过期时间 s
      */
-    Integer expire = 7200;
+    Integer expire = 18000;
 }

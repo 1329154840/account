@@ -138,6 +138,12 @@ var Auth = {
 function login_Form(form){
 	var name = $("#login_name").val();
 	var password = $("#login_password").val();
+	var admicheck = document.getElementById("login_admi_check");
+	var mytype =  1;
+	if(admicheck.checked){
+		mytype =  0;
+	}
+
 	if(!name || name == ""){
 		alert("请输入用户名");
 		form.name.focus ();
@@ -151,14 +157,14 @@ function login_Form(form){
 //这里为用ajax获取用户信息并进行验证，如果账户密码不匹配则登录失败，如不需要验证用户信息，这段可不写
 	$.ajax({
 		url : "/login",// 获取自己系统后台用户信息接口
-		data :{"name":name,"password":password},
+		data :{"name":name,"password":password,"type":mytype},
 		type : "POST",
 		dataType: "json",
 		success : function(data) {
 			if (data){
-				if (data.code == "1"){
+				if (data.code == "0"){
 					// alert(data.msg);
-					window.location.href = "/home";
+					window.location.href = "/device_dashboard";
 					window.event.returnValue=false;
 					return true;
 				}else {
@@ -168,8 +174,8 @@ function login_Form(form){
 			}
 		},
 		error : function(data){
-			alert(data.msg);
 
+			alert(data.msg);
 		}
 	});
 
@@ -180,6 +186,11 @@ function register_Form(form){
 	var name = $("#register_name").val();
 	var email = $("#register_email").val();
 	var password = $("#register_password").val();
+	var admicheck = document.getElementById("register_admi_check");
+	var mytype =  1;
+	if(admicheck.checked){
+		mytype =  0;
+	}
 	// alert(name);
 	// alert(password);
 	if(!name || name == ""){
@@ -195,12 +206,12 @@ function register_Form(form){
 //这里为用ajax获取用户信息并进行验证，如果账户密码不匹配则登录失败，如不需要验证用户信息，这段可不写
 	$.ajax({
 		url : "/register",// 获取自己系统后台用户信息接口
-		data :{"name":name,"email":email,"password":password},
+		data :{"name":name,"email":email,"password":password,"type":mytype},
 		type : "POST",
 		dataType: "json",
 		success : function(data) {
 			if (data){
-				if (data.code == "1"){
+				if (data.code == "0"){
 					alert(data.msg);
 					window.location.href = "/";
 					window.event.returnValue=false;

@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum RegisterReturn {
-    FAIL(0,"注册失败"),
-    OK(1,"注册成功"),
+    FAIL(1,"注册失败"),
+    OK(0,"注册成功"),
     REPEAT(2,"name重复")
     ;
     private Integer code;

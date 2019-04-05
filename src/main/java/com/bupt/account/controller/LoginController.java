@@ -1,67 +1,63 @@
 package com.bupt.account.controller;
 
-import com.bupt.account.VO.ResultLoginVO;
-import com.bupt.account.VO.ResultRegisterVO;
 import com.bupt.account.VO.ResultVO;
 import com.bupt.account.constant.CookieConstant;
-import com.bupt.account.dataobject.UserInfo;
 import com.bupt.account.enums.LoginReturn;
-import com.bupt.account.enums.RegisterReturn;
-import com.bupt.account.enums.UserStatus;
 import com.bupt.account.service.UserService;
-import com.bupt.account.service.impl.UserServiceImpl;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.exception.HystrixTimeoutException;
+import com.bupt.account.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-@Controller
+@RestController
 @Slf4j
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    @HystrixCommand(fallbackMethod="getFallback",commandKey="test",groupKey="userGroup",
-            threadPoolKey="testThread")
-    public String test(){
-        return "login";
-    }
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
 
     /**
      * 登录校验，成功写入将token，写入redis
-     * @param name
+     * @param openid
      * @param password
      * @param response
      * @return
      */
+
     @PostMapping("/login")
-    @ResponseBody
-    public ResultRegisterVO login(@RequestParam("name") String name,
-                                  @RequestParam("password") String password, HttpServletResponse response){
-        log.info("login_name:{}",name);
+    public ResultVO login(@RequestParam("name") String openid,
+                                  @RequestParam("password") String password,
+                                    @RequestParam("type") Integer type ,
+                                    HttpServletResponse response){
+        log.info("login_openid:{}",openid);
         log.info("login_password:{}",password);
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String token = name + "-" + uuid;
-        LoginReturn loginReturn = userService.loginAuthentication(name,password,uuid);
+        LoginReturn loginReturn = userService.loginAuthentication(openid,password,type);
         if (loginReturn.getCode().equals(LoginReturn.OK.getCode())){
-
-            Cookie cookie = new Cookie("token",token);
-            cookie.setPath("/");
-            cookie.setMaxAge(CookieConstant.expire);
-            response.addCookie(cookie);
+            Integer expire = CookieConstant.expire;
+            String str =  String.format("%s-%s-%s",openid,String.valueOf(type),uuid);
+            stringRedisTemplate.opsForValue().set(openid,
+                    str,
+                    expire,
+                    TimeUnit.SECONDS);
+            CookieUtil.set(response,CookieConstant.TOKEN,str,CookieConstant.expire);
         }
-        ResultRegisterVO resultLoginVO = new ResultRegisterVO();
+        ResultVO resultLoginVO = new ResultVO();
         resultLoginVO.setCode(loginReturn.getCode());
         resultLoginVO.setMsg(loginReturn.getMessage());
         return resultLoginVO;
@@ -89,15 +85,4 @@ public class LoginController {
         model.addAttribute("uid","0");
         return "home";
     }
-
-    private String getFallback(Throwable e){
-        e.printStackTrace();
-        if ( e instanceof HystrixTimeoutException){
-            log.error("Timeout");
-            return "系统繁忙，请稍后";
-        }
-        log.error("Throwable info {}",e.getMessage());
-        return "fail";
-    }
-
 }

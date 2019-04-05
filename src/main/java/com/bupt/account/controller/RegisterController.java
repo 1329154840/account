@@ -1,6 +1,6 @@
 package com.bupt.account.controller;
 
-import com.bupt.account.VO.ResultRegisterVO;
+import com.bupt.account.VO.ResultVO;
 import com.bupt.account.dataobject.UserInfo;
 import com.bupt.account.enums.RegisterReturn;
 import com.bupt.account.enums.UserStatus;
@@ -23,20 +23,24 @@ public class RegisterController {
      * @return
      */
     @PostMapping("/register")
-    public ResultRegisterVO register(@RequestParam("name") String name,
-                                     @RequestParam("email") String email,
-                                     @RequestParam("password") String password){
+    public ResultVO register(@RequestParam("name") String name,
+                             @RequestParam("email") String email,
+                             @RequestParam("password") String password,
+                             @RequestParam("type") Integer type){
         log.info("register_name:{}",name);
         log.info("register_email:{}",email);
         log.info("register_password:{}",password);
+        log.info("register_type:{}",type);
+
         //创建userinfo实例
         UserInfo userInfo = new UserInfo();
         userInfo.setOpenid(name);
         userInfo.setPassword(password);
         userInfo.setEmail(email);
+        userInfo.setType(type);
         userInfo.setStatus(UserStatus.Offline.getCode());
         RegisterReturn registerReturn = userService.create(userInfo);
-        ResultRegisterVO resultRegisterVO = new ResultRegisterVO();
+        ResultVO resultRegisterVO = new ResultVO();
         resultRegisterVO.setCode(registerReturn.getCode());
         resultRegisterVO.setMsg(registerReturn.getMessage());
         return resultRegisterVO;

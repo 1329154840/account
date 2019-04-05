@@ -27,6 +27,9 @@
 							<input type="password" name="password" autocomplete="current-password" id="login_password" class="login-input">
 							<input type='hidden' name='pwd' id='md5_pwd' value=''/>
 						</div>
+
+						<label>管理员<input class="login-box-inner" value="管理员" type="checkbox" id="login_admi_check"></label>
+
 						<input class="login-btn" value="登陆" type="button" onclick="login_Form(this.form)">
 						<div class="text-foot">
 							没有账户？ <a href="" class="register-link">注册</a>
@@ -51,6 +54,7 @@
 							<label>密码</label>
 							<input type="password" name="password" autocomplete="current-password" id="register_password" class="login-input">
 						</div>
+						<label>管理员<input class="login-box-inner" value="管理员" type="checkbox" id="register_admi_check"></label>
 						<input class="login-btn" value="注册" type="button" onclick="register_Form(this.form)">
 						<div class="text-foot">
 							已经有账户？ <a href="" class="login-link">登陆</a>
@@ -64,7 +68,7 @@
 			Design By <a href="http://fb.me/itskodinger">@itskodinger</a>
 		</footer>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="/assets/js/core/jquery.3.2.1.min.js"></script>
 	<script src="/js/auth.js"></script>
 	<script>
 		Auth.init({

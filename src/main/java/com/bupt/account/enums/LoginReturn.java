@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum LoginReturn {
-    FAIL(0,"登陆失败"),
-    OK(1,"登陆成功")
+    FAIL(1,"登陆失败"),
+    OK(0,"登陆成功")
     ;
     private Integer code;
     private String message;

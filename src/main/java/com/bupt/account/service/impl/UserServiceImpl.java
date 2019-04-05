@@ -44,15 +44,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public LoginReturn loginAuthentication(String openid, String password,String uuid) {
+    public LoginReturn loginAuthentication(String openid, String password,Integer type) {
         UserInfo userInfo = userInfoRespository.findUserInfoByOpenid(openid);
-        if(userInfo!=null && userInfo.getPassword().equals(password)){ //账号密码正确
-            //写入redis
-            Integer expire = CookieConstant.expire;
-            stringRedisTemplate.opsForValue().set(String.format(RedisConstant.TOKEN_TEMPLATE,uuid),
-                    openid,
-                    expire,
-                    TimeUnit.SECONDS);
+        if(userInfo!=null && userInfo.getPassword().equals(password) && userInfo.getType()==type){ //账号密码权限正确
             return LoginReturn.OK;
         }else { //登陆失败
             return LoginReturn.FAIL;

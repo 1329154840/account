@@ -26,7 +26,7 @@ public interface UserService {
    /**
     *登陆认证
     */
-   LoginReturn loginAuthentication(String openid, String password,String uuid);
+   LoginReturn loginAuthentication(String openid, String password,Integer type);
 
    /**
     * 创建用户
