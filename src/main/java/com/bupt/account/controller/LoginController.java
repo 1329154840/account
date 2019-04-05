@@ -10,6 +10,8 @@ import com.bupt.account.enums.RegisterReturn;
 import com.bupt.account.enums.UserStatus;
 import com.bupt.account.service.UserService;
 import com.bupt.account.service.impl.UserServiceImpl;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.exception.HystrixTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping("/")
+    @HystrixCommand(fallbackMethod="getFallback",commandKey="test",groupKey="userGroup",
+            threadPoolKey="testThread")
     public String test(){
         return "login";
     }
@@ -84,6 +88,16 @@ public class LoginController {
         }
         model.addAttribute("uid","0");
         return "home";
+    }
+
+    private String getFallback(Throwable e){
+        e.printStackTrace();
+        if ( e instanceof HystrixTimeoutException){
+            log.error("Timeout");
+            return "系统繁忙，请稍后";
+        }
+        log.error("Throwable info {}",e.getMessage());
+        return "fail";
     }
 
 }

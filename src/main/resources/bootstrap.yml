@@ -2,7 +2,9 @@ spring:
   cloud:
     config:
       profile: dev
-      uri: http://114.115.130.42:1111
+      discovery:
+        enabled: true
+        service-id: config
   application:
     name: account
 eureka:
@@ -11,6 +13,12 @@ eureka:
       defaultZone: http://114.115.130.42:8761/eureka/
   instance:
     prefer-ip-address: true
-    instance-id: 127.0.0.1:8082
+    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${server.port}
+    ip-address: 127.0.0.1
 server:
   port: 8082
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
