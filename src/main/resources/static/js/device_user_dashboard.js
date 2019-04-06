@@ -14,21 +14,19 @@ var allDecice = []; //所有设备
 //         tr.appendChild(tds[i]);
 //     }
 // }
-
+var openId;
 function init() { //初始化执行
-    var token = getCookie("token");
-    //alert(token);
-    var tokenList = token.split("-");
-    if(tokenList[1]=="0"){ //管理员
-        admiFindAllDevice();
-    }else if(tokenList[1]=="1"){ //普通用户
-        userFindDevice(tokenList[0]);
-    }
+     var token = getCookie("token");
+    // //alert(token);
+     var tokenList = token.split("-");
+     openId = tokenList[0];
+    userFindAllDevice();
+
 }
 
-function admiFindAllDevice() { //管理员使用，获取所有信息
+function userFindAllDevice() { //管理员使用，获取所有信息
     $.ajax({
-        url : "/admin/findAll",
+        url : "/user/findAll",
         //data :{},
         type : "get",
         dataType:"json",  //数据格式设置为jsonp
@@ -58,27 +56,29 @@ function admiFindAllDevice() { //管理员使用，获取所有信息
     });
 
 }
-function userFindDevice(id) {
-    console.log(id);
-    $.ajax({
-        type: "get",
-        url: "/admin/findByOpenId",
-        dataType: 'json',
-        data: {
-            "id":id
-        },
-        success : function (data) {
-            if (data){
-                console.log(data.data);
-                //layer.msg("查询成功",{time: 2000});
-            }
-        },
-        error : function (data) {
-            layer.msg("查询失败",{time: 2000});
-        }
 
-    });
-}
+// function userFindDevice(id) {
+//     console.log(id);
+//     $.ajax({
+//         type: "get",
+//         url: "/user/findByOpenId",
+//         dataType: 'json',
+//         data: {
+//             "id":id
+//         },
+//         success : function (data) {
+//             if (data){
+//                 console.log(data.data);
+//                 //layer.msg("查询成功",{time: 2000});
+//             }
+//         },
+//         error : function (data) {
+//             layer.msg("查询失败",{time: 2000});
+//         }
+//
+//     });
+// }
+
 function addDevice() { //添加设备
     layer.open({
         type: 1,
@@ -103,13 +103,14 @@ function addDeviceCheck(){//发送ajax 创建新的设备
     }
     $.ajax({
         type: "get",
-        url: "/admin/insert",
+        url: "/user/insert",
         dataType: 'json',
         data: {
             "name":name,
             "model":model,
             "nickname":nickname,
-            "status":status
+            "status":status,
+            "openId":openId
         },
         success : function (data) {
             if (data){
@@ -121,7 +122,6 @@ function addDeviceCheck(){//发送ajax 创建新的设备
         error : function (data) {
             layer.msg("创建失败",{time: 2000});
         }
-
     });
     layer.closeAll();
 }
@@ -168,10 +168,10 @@ function updateDeviceCheck(index){//发送ajax 更新设备
         success : function (data) {
             if (data){
                 layer.msg("更新成功",{time: 2000});
-                allDecice[index].model = model;
-                allDecice[index].name = name;
-                allDecice[index].nickname = nickname;
-                allDecice[index].status = status;
+                allDecice[index].model = data.data.model;
+                allDecice[index].name = data.data.name;
+                allDecice[index].nickname = data.data.nickname;
+                allDecice[index].status = data.data.status;
                 showAllDevice(allDecice);
             }
         },
@@ -226,7 +226,7 @@ function showAllDevice(deviceinfo) {//显示所有设备
             tr.appendChild(tds[j]);
         }
         tds[0].innerText = i+1;
-        tds[1].innerText = deviceinfo[i].customId;
+        tds[1].innerText = deviceinfo[i].openId;
         tds[2].innerText = deviceinfo[i].id;
         tds[3].innerText = deviceinfo[i].model;
         tds[4].innerText = deviceinfo[i].name;

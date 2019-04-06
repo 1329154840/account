@@ -71,6 +71,7 @@ public class AdminController {
                                          @RequestParam(value = "model", required = false) String model,
                                          @RequestParam(value = "nickname", required = false) String nickname,
                                          @RequestParam(value = "status", required = false) String status,
+                                         @RequestParam(value = "openId", required = false) String openId,
                                          HttpServletRequest request){
         Cookie cookie = CookieUtil.get(request,"token");
 
@@ -80,7 +81,7 @@ public class AdminController {
         headers.put(HttpHeaders.COOKIE, mycookies );
 
         HttpEntity entity = new HttpEntity(null, headers);
-        String url = String.format("http://DEVICES-ACCESS/admin/updateById?id=%s&name=%s&model=%s&nickname=%s&status=%s",id,name,model,nickname,status);
+        String url = String.format("http://DEVICES-ACCESS/admin/updateById?id=%s&name=%s&model=%s&nickname=%s&status=%s&openId=%s",id,name,model,nickname,status,openId);
         log.info(url);
 //        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> reponse = restTemplate.exchange(url,HttpMethod.GET,entity,String.class);

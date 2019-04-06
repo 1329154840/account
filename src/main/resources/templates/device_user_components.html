@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Ready Bootstrap Dashboard</title>
+	<title>Components - Ready Bootstrap Dashboard</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="/assets/css/ready.css">
 	<link rel="stylesheet" href="/assets/css/demo.css">
 </head>
-<body onload="init()">
+<body onload='init()'>
 	<div class="wrapper">
 		<div class="main-header">
 			<div class="logo-header">
-				<a href="device_dashboard.html" class="logo">
+				<a href="device_admi_dashboard.html" class="logo">
 					Ready Dashboard
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,6 @@
 			</div>
 			<nav class="navbar navbar-header navbar-expand-lg">
 				<div class="container-fluid">
-					
 					<form class="navbar-left navbar-form nav-search mr-md-3" action="">
 						<div class="input-group">
 							<input type="text" placeholder="Search ..." class="form-control">
@@ -78,7 +77,7 @@
 										</a>
 										<a href="#">
 											<div class="notif-img"> 
-												<img src="assets/img/profile2.jpg" alt="Img Profile">
+												<img src="/assets/img/profile2.jpg" alt="Img Profile">
 											</div>
 											<div class="notif-content">
 												<span class="block">
@@ -104,11 +103,11 @@
 							</ul>
 						</li>
 						<li class="nav-item dropdown">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Hizrian</span></span> </a>
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Hizrian</span></span> </a>
 							<ul class="dropdown-menu dropdown-user">
 								<li>
 									<div class="user-box">
-										<div class="u-img"><img src="assets/img/profile.jpg" alt="user"></div>
+										<div class="u-img"><img src="/assets/img/profile.jpg" alt="user"></div>
 										<div class="u-text">
 											<h4>Hizrian</h4>
 											<p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
@@ -167,46 +166,40 @@
 						</div>
 					</div>
 					<ul class="nav">
-						<li class="nav-item active">
-							<a href="device_dashboard.html">
+						<li class="nav-item">
+							<a href="device_user_dashboard">
 								<i class="la la-dashboard"></i>
 								<p>Dashboard</p>
-								<span class="badge badge-count">5</span>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a href="device_components">
+						<li class="nav-item active">
+							<a href="device_user_components">
 								<i class="la la-table"></i>
 								<p>Components</p>
-								<span class="badge badge-count">14</span>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="forms.html">
+							<a href="device_user_rule">
 								<i class="la la-keyboard-o"></i>
-								<p>Forms</p>
-								<span class="badge badge-count">50</span>
+								<p>Rule</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="tables.html">
 								<i class="la la-th"></i>
 								<p>Tables</p>
-								<span class="badge badge-count">6</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="notifications.html">
 								<i class="la la-bell"></i>
 								<p>Notifications</p>
-								<span class="badge badge-success">3</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="typography.html">
 								<i class="la la-font"></i>
 								<p>Typography</p>
-								<span class="badge badge-danger">25</span>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -227,47 +220,38 @@
 			<div class="main-panel">
 				<div class="content">
 					<div class="container-fluid">
-						<h4 class="page-title">Dashboard</h4>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header ">
-										<h4 class="card-title" >Group</h4>
-										<p class="card-category">Users Table</p>
-									</div>
-									<div class="card-body">
-										<table class="table table-head-bg-success table-striped table-hover" id="test">
-											<thead>
-												<tr>
-													<th scope="col">#</th>
-													<th scope="col">CUSTOMID</th>
-													<th scope="col">ID</th>
-													<th scope="col">MODEL</th>
-													<th scope="col">NAME</th>
-													<th scope="col">NICKNAME</th>
-													<th scope="col">STATUS</th>
-													<th scope="col">UPDATE</th>
-													<th scope="col">DELETE</th>
-												</tr>
-											</thead>
-											<!--<tbody>-->
-												<!--<tr>-->
-													<!--<td>1</td>-->
-													<!--<td>Madwdqdqwddqwdwefwfewfwfwfewdwerk</td>-->
-													<!--<td>Otto</td>-->
-													<!--<td>@mdo</td>-->
-													<!--<td>Otto</td>-->
-													<!--<td>@mdo</td>-->
-												<!--</tr>-->
-											<!--</tbody>-->
-											<input class="update-pro button" scope="col" value="添加设备" type="button" onclick="addDevice()">
-										</table>
-									</div>
-								</div>
-							</div>
+						<h4 class="page-title">Component</h4>
+
+						<div class="row" id="addHere">
+
+							<!--<div class="col-md-12">-->
+								<!--<div class="card">-->
+									<!--<div class="card-header">-->
+										<!--<h4 class="card-title">id:</h4>-->
+										<!--<p class="card-category">name:</p>-->
+									<!--</div>-->
+									<!--<div class="card-body">-->
+										<!--<p class="demo">-->
+											<!--&lt;!&ndash;<button class="btn btn-danger">删除</button>&ndash;&gt;-->
+											<!--<button class="btn btn-success" >添加</button>-->
+											<!--&lt;!&ndash;<button class="btn btn-default">Default</button>&ndash;&gt;-->
+											<!--&lt;!&ndash;<button class="btn btn-primary">Primary</button>&ndash;&gt;-->
+											<!--&lt;!&ndash;<button class="btn btn-info">Info</button>&ndash;&gt;-->
+											<!--&lt;!&ndash;&ndash;&gt;-->
+											<!--&lt;!&ndash;<button class="btn btn-warning">warn</button>&ndash;&gt;-->
+											<!--&lt;!&ndash;&ndash;&gt;-->
+											<!--&lt;!&ndash;<button class="btn btn-link">Link</button>&ndash;&gt;-->
+										<!--</p>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+
+
 						</div>
+
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -284,7 +268,7 @@
 				<div class="modal-body text-center">									
 					<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
 					<p>
-						<b>We'll let you know when it's done</b></p>
+					<b>We'll let you know when it's done</b></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -293,9 +277,8 @@
 		</div>
 	</div>
 </body>
-
+<script src="/js/device_user_components.js"></script>
 <script src="/assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="/js/device_dashboard.js"></script>
 <script src="/layer/layer.js"></script>
 
 <script src="/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -310,5 +293,19 @@
 <script src="/assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="/assets/js/ready.min.js"></script>
-<script src="/assets/js/demo.js"></script>
+<script>
+	$( function() {
+		$( "#slider" ).slider({
+			range: "min",
+			max: 100,
+			value: 40,
+		});
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ]
+		});
+	} );
+</script>
 </html>

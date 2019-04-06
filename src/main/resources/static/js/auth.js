@@ -135,13 +135,17 @@ var Auth = {
 	}
 }
 
+var usertype={
+	admi : 0,
+	user : 1
+};
 function login_Form(form){
 	var name = $("#login_name").val();
 	var password = $("#login_password").val();
 	var admicheck = document.getElementById("login_admi_check");
-	var mytype =  1;
+	var mytype =  usertype.user;
 	if(admicheck.checked){
-		mytype =  0;
+		mytype =  usertype.admi;
 	}
 
 	if(!name || name == ""){
@@ -164,7 +168,13 @@ function login_Form(form){
 			if (data){
 				if (data.code == "0"){
 					// alert(data.msg);
-					window.location.href = "/device_dashboard";
+					if(mytype==usertype.user){ //普通用户登陆
+						window.location.href = "/device_user_dashboard";
+					}
+					if(mytype==usertype.admi){//管理用户登陆
+						window.location.href = "/device_admi_dashboard";
+					}
+
 					window.event.returnValue=false;
 					return true;
 				}else {
