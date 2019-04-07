@@ -13,7 +13,6 @@ import java.util.Date;
 public class RuleInfo {
 
     /**自增主键id*/
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal id;
 
@@ -28,8 +27,10 @@ public class RuleInfo {
 
     /**用户id*/
     private String userId;
+    /**规则id*/
+    @Id
+    private String ruleId;
 
-    private String add1;
     private String add2;
     private String add3;
 
