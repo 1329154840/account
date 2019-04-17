@@ -5,7 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 @Table(name = "rule_info")
@@ -23,7 +23,7 @@ public class RuleInfo {
     private String op;
 
     /**时期*/
-    private Date date ;
+    private Timestamp date ;
 
     /**用户id*/
     private String userId;
@@ -31,7 +31,11 @@ public class RuleInfo {
     @Id
     private String ruleId;
 
-    private String add2;
+    /**
+     * 是否已上传
+     */
+    private String status;
+
     private String add3;
 
 }

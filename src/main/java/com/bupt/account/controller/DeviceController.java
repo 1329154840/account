@@ -35,7 +35,5 @@ public class DeviceController {
         }else {
             return ResultVOUtil.error(DeviceReturn.FAIL);
         }
-
     }
-
 }

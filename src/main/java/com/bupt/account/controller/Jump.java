@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 @Slf4j
 public class Jump {
+
     @GetMapping("/dashboard")
     public String dashboard(){
         return "device_admi_dashboard";
     }
+
     @GetMapping("/components")
     public String components(){
         return "device_admi_components";

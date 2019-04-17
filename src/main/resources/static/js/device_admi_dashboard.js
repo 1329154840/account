@@ -1,29 +1,17 @@
 
 var allDecice = []; //所有设备
 
-// function test() {
-//     var table = document.getElementById("test");
-//     var tbody = document.createElement("tbody");
-//     table.appendChild(tbody);
-//     var tr = document.createElement("tr");
-//     tbody.appendChild(tr);
-//     var tds = new Array();
-//     for(var i = 0;i<6;i++){
-//         tds[i] = document.createElement("td");
-//         tds[i].innerText = i;
-//         tr.appendChild(tds[i]);
-//     }
-// }
-
-function init() { //初始化执行
-    // var token = getCookie("token");
-    // //alert(token);
-    // var tokenList = token.split("-");
+/**
+ * 初始化执行
+ */
+function init() {
     admiFindAllDevice();
-
 }
 
-function admiFindAllDevice() { //管理员使用，获取所有信息
+/**
+ * 获取所有设备信息
+ */
+function admiFindAllDevice() {
     $.ajax({
         url : "/admin/findAll",
         //data :{},
@@ -36,6 +24,7 @@ function admiFindAllDevice() { //管理员使用，获取所有信息
         // xhrFields: {withCredentials: true},
         // crossDomain: true,
         success : function(data) {
+            //TODO：完善所有返回状态
             if (data){
                 allDecice = data.data;
                 showAllDevice(allDecice);
@@ -53,8 +42,12 @@ function admiFindAllDevice() { //管理员使用，获取所有信息
             layer.msg(data.errorMessage)
         }
     });
-
 }
+
+/**
+ * 通过用户id查询设备西悉尼
+ * @param id
+ */
 function userFindDevice(id) {
     console.log(id);
     $.ajax({
@@ -76,7 +69,11 @@ function userFindDevice(id) {
 
     });
 }
-function addDevice() { //添加设备
+
+/**
+ * 添加设备
+ */
+function addDevice() {
     layer.open({
         type: 1,
         closeBtn: false,
@@ -89,7 +86,11 @@ function addDevice() { //添加设备
             "<button style='margin-top:5%;' type='button' class='btn btn-block btn-success btn-lg' onclick='addDeviceCheck()'>提交</button></div>"
     });
 }
-function addDeviceCheck(){//发送ajax 创建新的设备
+
+/**
+ * 发送ajax 创建新的设备
+ */
+function addDeviceCheck(){
     var model = $("#deviceModel").val();
     var name = $("#deviceName").val();
     var nickname = $("#deviceNickname").val();
@@ -123,6 +124,10 @@ function addDeviceCheck(){//发送ajax 创建新的设备
     layer.closeAll();
 }
 
+/**
+ * 更新设备状态
+ * @param index
+ */
 function updateDevice(index) {
     layer.open({
         type: 1,
@@ -142,7 +147,12 @@ function updateDevice(index) {
     document.getElementById("deviceOpenid").value = allDecice[index].openId;
     document.getElementById("deviceStatus").value = allDecice[index].status;
 }
-function updateDeviceCheck(index){//发送ajax 更新设备
+
+/**
+ * 发送ajax 更新设备
+ * @param index
+ */
+function updateDeviceCheck(index){
     var model = $("#deviceModel").val();
     var name = $("#deviceName").val();
     var nickname = $("#deviceNickname").val();
@@ -184,6 +194,10 @@ function updateDeviceCheck(index){//发送ajax 更新设备
     layer.closeAll();
 }
 
+/**
+ * 删除设备
+ * @param index
+ */
 function deleteDevice(index) {
     var id = allDecice[index].id;
     $.ajax({
@@ -211,7 +225,12 @@ function deleteDevice(index) {
 var table = document.getElementById("test");
 var tbody = document.createElement("tbody");
 table.appendChild(tbody);
-function showAllDevice(deviceinfo) {//显示所有设备
+
+/**
+ * 显示所有设备
+ * @param deviceinfo
+ */
+function showAllDevice(deviceinfo) {
 
     while(tbody.hasChildNodes()){
         tbody.removeChild(tbody.firstChild);
@@ -228,6 +247,8 @@ function showAllDevice(deviceinfo) {//显示所有设备
         }
         tds[0].innerText = i+1;
         tds[1].innerText = deviceinfo[i].openId=='-1'?"NO USER":deviceinfo[i].openId;
+        //TODO：无须每次都全部更新 设置td的id 改为部分更新
+
         // if(deviceinfo[i].openId=='-1'){
         //     tds[1].innerText = "NO USER";
         // }else tds[1].innerText = deviceinfo[i].openId;
@@ -259,8 +280,11 @@ function showAllDevice(deviceinfo) {//显示所有设备
     }
 }
 
-
-
+/**
+ * 获取指定cookie
+ * @param name
+ * @returns {string}
+ */
 function getCookie(name) {
     var cookies = document.cookie;
     if(!cookies){

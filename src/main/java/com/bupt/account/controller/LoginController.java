@@ -33,17 +33,17 @@ public class LoginController {
 
     /**
      * 登录校验，成功写入将token，写入redis
-     * @param openid
-     * @param password
+     * @param openid 用户id
+     * @param password 用户密码
      * @param response
      * @return
      */
-
     @PostMapping("/login")
     public ResultVO login(@RequestParam("name") String openid,
                                   @RequestParam("password") String password,
                                     @RequestParam("type") Integer type ,
                                     HttpServletResponse response){
+        //TODO：对密码进行加密
         log.info("login_openid:{}",openid);
         log.info("login_password:{}",password);
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");

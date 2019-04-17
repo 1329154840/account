@@ -31,7 +31,7 @@ public class RegisterController {
         log.info("register_email:{}",email);
         log.info("register_password:{}",password);
         log.info("register_type:{}",type);
-
+        //TODO: 密码加密
         //创建userinfo实例
         UserInfo userInfo = new UserInfo();
         userInfo.setOpenid(name);

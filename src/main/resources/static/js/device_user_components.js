@@ -7,27 +7,7 @@ var deviceType={
     humidifier : "加湿器",
     curtain : "窗帘"
 };
-//
-// $(document).ready(function(){ //初始化执行
-//     alert("dwada");
-//     var div1 = document.getElementById("addHere");
-//     var div2 = document.createElement("div");
-//     div2.addClass("col-md-12");
-//     div1.appendChild(div2);
-//     var div3 = document.createElement("div");
-//     div3.addClass("card");
-//     div2.appendChild(div3);
-//     var div4 = document.createElement("div");
-//     div4.addClass("card-header");
-//     div3.appendChild(div4);
-//     var h4 = document.createElement("h4");
-//     h4.innerText="id:";
-//     var p = document.createElement("p");
-//     p.innerText="name:";
-//     div4.appendChild(h4);
-//     div4.appendChild(p);
-// });
-//
+
 var deviceTypes = [];
 function init(){ //初始化执行
     deviceTypes.push(deviceType.airCondition);

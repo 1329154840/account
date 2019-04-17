@@ -1,19 +1,7 @@
 
 var allDecice = []; //所有设备
 
-// function test() {
-//     var table = document.getElementById("test");
-//     var tbody = document.createElement("tbody");
-//     table.appendChild(tbody);
-//     var tr = document.createElement("tr");
-//     tbody.appendChild(tr);
-//     var tds = new Array();
-//     for(var i = 0;i<6;i++){
-//         tds[i] = document.createElement("td");
-//         tds[i].innerText = i;
-//         tr.appendChild(tds[i]);
-//     }
-// }
+
 var openId;
 function init() { //初始化执行
      var token = getCookie("token");
@@ -24,7 +12,7 @@ function init() { //初始化执行
 
 }
 
-function userFindAllDevice() { //管理员使用，获取所有信息
+function userFindAllDevice() {
     $.ajax({
         url : "/user/findAll",
         //data :{},
@@ -212,6 +200,7 @@ var tbody = document.createElement("tbody");
 table.appendChild(tbody);
 function showAllDevice(deviceinfo) {//显示所有设备
 
+    sessionStorage.setItem('allDevice',JSON.stringify(allDecice));
     while(tbody.hasChildNodes()){
         tbody.removeChild(tbody.firstChild);
     }

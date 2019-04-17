@@ -25,26 +25,30 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
+    @Transactional
     public boolean deleteRuleByRuleId(String ruleId) {
         ruleServiceRespository.deleteByRuleId(ruleId);
         return true;
     }
 
     @Override
+    @Transactional
     public boolean update(String ruleId, RuleInfo ruleInfo) {
-        RuleInfo oldRule =  ruleServiceRespository.findRuleInfoByRuleId(ruleId);
-        BeanUtils.copyProperties(ruleInfo,oldRule);
-        oldRule.setRuleId(ruleId);
-        ruleServiceRespository.saveAndFlush(oldRule);
+//        RuleInfo oldRule =  ruleServiceRespository.findRuleInfoByRuleId(ruleId);
+//        BeanUtils.copyProperties(ruleInfo,oldRule);
+//        oldRule.setRuleId(ruleId);
+        ruleServiceRespository.saveAndFlush(ruleInfo);
         return true;
     }
 
     @Override
+    @Transactional
     public List<RuleInfo> findAllByUserId(String userId) {
         return ruleServiceRespository.findAllByUserId(userId);
     }
 
     @Override
+    @Transactional
     public RuleInfo findRuleInfoByRuleId(String ruleId) {
         return ruleServiceRespository.findRuleInfoByRuleId(ruleId);
     }

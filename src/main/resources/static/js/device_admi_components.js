@@ -1,5 +1,9 @@
-
+/**
+ * 设备类型（model）
+ * @type {{door: string, light: string, waterHeater: string, humidifier: string, airCondition: string, curtain: string}}
+ */
 var deviceType={
+    //TODO: 放到后台
     airCondition : "空调",
     light : "电灯",
     door : "门",
@@ -7,29 +11,12 @@ var deviceType={
     humidifier : "加湿器",
     curtain : "窗帘"
 };
-//
-// $(document).ready(function(){ //初始化执行
-//     alert("dwada");
-//     var div1 = document.getElementById("addHere");
-//     var div2 = document.createElement("div");
-//     div2.addClass("col-md-12");
-//     div1.appendChild(div2);
-//     var div3 = document.createElement("div");
-//     div3.addClass("card");
-//     div2.appendChild(div3);
-//     var div4 = document.createElement("div");
-//     div4.addClass("card-header");
-//     div3.appendChild(div4);
-//     var h4 = document.createElement("h4");
-//     h4.innerText="id:";
-//     var p = document.createElement("p");
-//     p.innerText="name:";
-//     div4.appendChild(h4);
-//     div4.appendChild(p);
-// });
-//
 var deviceTypes = [];
-function init(){ //初始化执行
+
+/**
+ * 初始化 加载设备信息
+ */
+function init(){
     deviceTypes.push(deviceType.airCondition);
     deviceTypes.push(deviceType.light);
     deviceTypes.push(deviceType.door);
@@ -72,9 +59,13 @@ function init(){ //初始化执行
         })(i);
         p2.appendChild(button);
     }
-
 }
-function addDevice(index) { //添加设备
+
+/**
+ * 添加设备
+ * @param index
+ */
+function addDevice(index) {
     layer.open({
         type: 1,
         closeBtn: false,
@@ -89,7 +80,11 @@ function addDevice(index) { //添加设备
     document.getElementById("deviceModel").value = deviceTypes[index];
     document.getElementById("deviceModel").disabled = 'disabled';
 }
-function addDeviceCheck(){//发送ajax 创建新的设备
+
+/**
+ * 发送ajax 创建新的设备
+ */
+function addDeviceCheck(){
     var model = $("#deviceModel").val();
     var name = $("#deviceName").val();
     var nickname = $("#deviceNickname").val();
