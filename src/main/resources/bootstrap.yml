@@ -10,12 +10,11 @@ spring:
     name: account
   mvc:
     static-path-pattern: /**
-  zipkin:
-    base-url: http://127.0.0.1:9411/
-  sleuth:
-    sampler:
-      probability: 1
-
+#  zipkin:
+#    base-url: http://127.0.0.1:9411/
+#  sleuth:
+#    sampler:
+#      probability: 1
 eureka:
   client:
     service-url:
@@ -24,8 +23,8 @@ eureka:
     prefer-ip-address: true
     instance-id: 127.0.0.1:${server.port}
     ip-address: 127.0.0.1
-#server:
-#  port: 8082
+server:
+  port: 8082
 
 
 

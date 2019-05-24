@@ -37,6 +37,9 @@ public class RuleUserController {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    private HttpServletRequest request;
     /**
      * 通过userid查询所有设备
      * @param userId 用户id
@@ -91,7 +94,7 @@ public class RuleUserController {
      * @return
      */
     @PostMapping("/upload")
-    public ResponseEntity<String> ruleUpload(@RequestParam("ruleId")String ruleId,
+    public String ruleUpload(@RequestParam("ruleId")String ruleId,
                                              HttpServletRequest request){
         RuleInfo ruleInfo =  ruleService.findRuleInfoByRuleId(ruleId);
 
@@ -117,25 +120,25 @@ public class RuleUserController {
             ruleInfo.setStatus("UP");
             ruleService.update(ruleId,ruleInfo);
         }
-        return reponse;
+//        return reponse;
 
 
-//        JSONArray rule = new JSONArray();
-//        JSONObject singleRule = new JSONObject();
-//        singleRule.put("id",ruleInfo.getDeviceId());
-//        singleRule.put("op",ruleInfo.getOp());
-//        singleRule.put("date", ruleInfo.getDate().getTime());
-//        singleRule.put("type","1");
-//        rule.add(singleRule);
-//        JSONObject result = new JSONObject();
-//        result.put("rule",rule);
-//        String response = restTemplate.getForObject("http://devices-access/user/upload?rule={rule}",String.class,JSONObject.toJSONString(result));
-//        log.info("{}",response);
-////        if(response.getStatusCode()==HttpStatus.OK){
-////            ruleInfo.setStatus("UP");
-////            ruleService.update(ruleId,ruleInfo);
-////        }
-//        return response;
+        JSONArray rule = new JSONArray();
+        JSONObject singleRule = new JSONObject();
+        singleRule.put("id",ruleInfo.getDeviceId());
+        singleRule.put("op",ruleInfo.getOp());
+        singleRule.put("date", ruleInfo.getDate().getTime());
+        singleRule.put("type","1");
+        rule.add(singleRule);
+        JSONObject result = new JSONObject();
+        result.put("rule",rule);
+        String response = restTemplate.getForObject("http://devices-access/user/upload?rule={rule}",String.class,JSONObject.toJSONString(result));
+        log.info("{}",response);
+//        if(response.getStatusCode()==HttpStatus.OK){
+//            ruleInfo.setStatus("UP");
+//            ruleService.update(ruleId,ruleInfo);
+//        }
+        return response;
     }
 
     /**
@@ -165,7 +168,7 @@ public class RuleUserController {
         paramMap.add("rule", JSONObject.toJSONString(ruleDto));
 
         HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(paramMap, headers);
-        ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/user/removeJob", HttpMethod.POST,entity,String.class);
+        ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/user/removeJob", HttpMethod.GET,entity,String.class);
         log.info("response={}",reponse);
         if(reponse.getStatusCode()==HttpStatus.OK){
             ruleInfo.setStatus("DOWN");
@@ -226,5 +229,10 @@ public class RuleUserController {
         }
         ruleService.update(ruleId,rule);
         return JsonResponseUtil.ok();
+    }
+
+    @RequestMapping("loadBalance")
+    public String loadBalance(){
+        return JsonResponseUtil.ok(request.getLocalPort());
     }
 }

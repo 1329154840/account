@@ -144,14 +144,14 @@ function updateDeviceCheck(index){//发送ajax 更新设备
     }
     $.ajax({
         type: "get",
-        url: "/admin/update",
+        url: "/user/update",
         dataType: 'json',
         data: {
             "id":id,
             "name":name,
             "model":model,
             "nickname":nickname,
-            "status":status
+            "status":status,
         },
         success : function (data) {
             if (data){
@@ -175,7 +175,7 @@ function deleteDevice(index) {
     var id = allDecice[index].id;
     $.ajax({
         type: "get",
-        url: "/admin/deleteById",
+        url: "/user/deleteById",
         dataType: 'json',
         data: {
             "id":id
