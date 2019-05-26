@@ -129,7 +129,7 @@ public class DeviceUserController {
         headers.put(HttpHeaders.COOKIE, mycookies );
 
         HttpEntity entity = new HttpEntity(null, headers);
-        String url = String.format("http://DEVICES-ACCESS/admin/deleteById?id=%s",id);
+        String url = String.format("http://DEVICES-ACCESS/user/deleteById?id=%s",id);
         log.info(url);
         ResponseEntity<String> reponse = restTemplate.exchange(url,HttpMethod.GET,entity,String.class);
         log.info("response={}",reponse);

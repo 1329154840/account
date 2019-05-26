@@ -38,4 +38,11 @@ public interface RuleService {
      * @return
      */
     RuleInfo findRuleInfoByRuleId(String ruleId);
+
+    /**
+     * 查询所有规则
+     * @return
+     */
+    List<RuleInfo> findAll();
+
 }

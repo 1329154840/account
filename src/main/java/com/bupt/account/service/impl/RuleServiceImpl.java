@@ -25,6 +25,11 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
+    public List<RuleInfo> findAll() {
+        return ruleServiceRespository.findAll();
+    }
+
+    @Override
     @Transactional
     public boolean deleteRuleByRuleId(String ruleId) {
         ruleServiceRespository.deleteByRuleId(ruleId);

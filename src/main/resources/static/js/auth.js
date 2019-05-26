@@ -168,6 +168,7 @@ function login_Form(form){
 			if (data){
 				if (data.code == "0"){
 					// alert(data.msg);
+					sessionStorage.clear()
 					if(mytype==usertype.user){ //普通用户登陆
 						window.location.href = "/device_user_dashboard";
 					}

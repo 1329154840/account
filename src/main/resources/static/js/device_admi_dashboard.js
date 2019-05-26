@@ -231,7 +231,7 @@ table.appendChild(tbody);
  * @param deviceinfo
  */
 function showAllDevice(deviceinfo) {
-
+    sessionStorage.setItem('allDevice',JSON.stringify(allDecice));
     while(tbody.hasChildNodes()){
         tbody.removeChild(tbody.firstChild);
     }
