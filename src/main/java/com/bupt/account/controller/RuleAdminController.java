@@ -22,9 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin/rule")
@@ -91,35 +89,24 @@ public class RuleAdminController {
      * @return
      */
     @PostMapping("/upload")
-    public String ruleUpload(@RequestParam("ruleId")String ruleId,
+    public ResponseEntity<String> ruleUpload(@RequestParam("ruleId")String ruleId,
                              HttpServletRequest request){
-        RuleInfo ruleInfo =  ruleService.findRuleInfoByRuleId(ruleId);
-
+        /**
+         * cookie传递写入httpEntity
+         */
         Cookie cookie = CookieUtil.get(request,"token");
         HttpHeaders headers = new HttpHeaders();
         List<String> mycookies = new ArrayList<>();
         mycookies.add("token=" + cookie.getValue());
         headers.put(HttpHeaders.COOKIE, mycookies );
         headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(null,headers);
 
-        MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        RuleDto ruleDto = new RuleDto();
-        ruleDto.setId(ruleInfo.getDeviceId());
-        ruleDto.setOp(ruleInfo.getOp());
-        ruleDto.setDate(ruleInfo.getDate().getTime());
-        log.info("time={}",ruleDto.getDate());
-        paramMap.add("rule", JSONObject.toJSONString(ruleDto));
-
-        HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(paramMap, headers);
-        ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/user/upload", HttpMethod.POST,entity,String.class);
-        log.info("response={}",reponse);
-        if(reponse.getStatusCode()==HttpStatus.OK){
-            ruleInfo.setStatus("UP");
-            ruleService.update(ruleId,ruleInfo);
-        }
-//        return reponse;
-
-
+        /**
+         * 请求json参数传递
+         */
+        RuleInfo ruleInfo =  ruleService.findRuleInfoByRuleId(ruleId);
+        Map<String, Object> paramMap = new HashMap<String, Object>();
         JSONArray rule = new JSONArray();
         JSONObject singleRule = new JSONObject();
         singleRule.put("id",ruleInfo.getDeviceId());
@@ -129,13 +116,17 @@ public class RuleAdminController {
         rule.add(singleRule);
         JSONObject result = new JSONObject();
         result.put("rule",rule);
-        String response = restTemplate.getForObject("http://devices-access/user/upload?rule={rule}",String.class,JSONObject.toJSONString(result));
-        log.info("{}",response);
-//        if(response.getStatusCode()==HttpStatus.OK){
-//            ruleInfo.setStatus("UP");
-//            ruleService.update(ruleId,ruleInfo);
-//        }
-        return response;
+        paramMap.put("rule",JSONObject.toJSONString(result));
+        /**
+         * 发起请求
+         */
+        ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/user/upload?rule={rule}",HttpMethod.POST, httpEntity, String.class,paramMap);
+        log.info("response={}",reponse);
+        if(reponse.getStatusCode()==HttpStatus.OK){
+            ruleInfo.setStatus("UP");
+            ruleService.update(ruleId,ruleInfo);
+        }
+        return reponse;
     }
 
     /**
