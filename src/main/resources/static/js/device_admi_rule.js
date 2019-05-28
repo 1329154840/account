@@ -172,13 +172,15 @@ function dowloadRule(index) { //移除单个定时任务
         },
         success: function (data) {
             if(data.errorCode==0){
-                layer.msg(data.data,{time:2000});
-                allRule[index].status = "UP";
+                layer.msg("成功移除",{time:2000});
+                allRule[index].status = "DOWN";
                 showAllRule();
+            }else {
+                layer.msg("系统繁忙，请稍后",{time:2000});
             }
         },
         error: function (data) {
-            layer.msg("错误",{time:2000});
+            layer.msg("系统繁忙，请稍后",{time:2000});
         }
     });
 }

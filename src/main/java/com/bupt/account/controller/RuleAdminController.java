@@ -136,7 +136,7 @@ public class RuleAdminController {
      * @return
      */
     @PostMapping("/download")
-    public ResponseEntity<String> ruleDownload(@RequestParam("ruleId")String ruleId,
+    public String ruleDownload(@RequestParam("ruleId")String ruleId,
                                                HttpServletRequest request){
         RuleInfo ruleInfo =  ruleService.findRuleInfoByRuleId(ruleId);
 
@@ -146,23 +146,25 @@ public class RuleAdminController {
         mycookies.add("token=" + cookie.getValue());
         headers.put(HttpHeaders.COOKIE, mycookies );
         headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(null,headers);
 
-        MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        RuleDto ruleDto = new RuleDto();
-        ruleDto.setId(ruleInfo.getDeviceId());
-        ruleDto.setOp(ruleInfo.getOp());
-        ruleDto.setDate(ruleInfo.getDate().getTime());
-        log.info("time={}",ruleDto.getDate());
-        paramMap.add("rule", JSONObject.toJSONString(ruleDto));
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("id",ruleInfo.getDeviceId());
+        paramMap.put("op",ruleInfo.getOp());
+        paramMap.put("openId",ruleInfo.getUserId());
+        Date date = new Date(ruleInfo.getDate().getTime());
+        paramMap.put("dateStr", new SimpleDateFormat("yyyyy-MM-dd HH:mm:ss").format(date));
+        log.info("time={}",ruleInfo.getDate());
 
-        HttpEntity<MultiValueMap> entity = new HttpEntity<MultiValueMap>(paramMap, headers);
-        ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/user/removeJob", HttpMethod.GET,entity,String.class);
-        log.info("response={}",reponse);
-        if(reponse.getStatusCode()==HttpStatus.OK){
+        ResponseEntity<String> response = restTemplate.exchange("http://DEVICES-ACCESS/admin/removeJob?id={id}&op={op}&openId={openId}&dateStr={dateStr}", HttpMethod.GET,httpEntity,String.class,paramMap);
+        log.info("response={}",response);
+        if(response.getStatusCode()==HttpStatus.OK){
+
+            log.info(response.getBody());
             ruleInfo.setStatus("DOWN");
             ruleService.update(ruleId,ruleInfo);
         }
-        return reponse;
+        return response.getBody();
     }
 
     /**

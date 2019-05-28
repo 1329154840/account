@@ -39,7 +39,7 @@ function admiFindAllDevice() {
             }
         },
         error : function(data){
-            layer.msg(data.errorMessage)
+            layer.msg("系统繁忙，请稍后")
         }
     });
 }

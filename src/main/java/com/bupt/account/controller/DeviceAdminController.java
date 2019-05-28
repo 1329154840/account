@@ -32,7 +32,7 @@ public class DeviceAdminController {
      * @return
      */
     @GetMapping("/findAll")
-    public ResponseEntity<String> findAll(HttpServletRequest request){
+    public String findAll(HttpServletRequest request){
         Cookie cookie = CookieUtil.get(request,"token");
 
         HttpHeaders headers = new HttpHeaders();
@@ -43,7 +43,7 @@ public class DeviceAdminController {
         HttpEntity entity = new HttpEntity(null, headers);
         ResponseEntity<String> reponse = restTemplate.exchange("http://DEVICES-ACCESS/admin/findAll",HttpMethod.GET,entity,String.class);
         log.info("response={}",reponse);
-        return reponse;
+        return reponse.getBody();
     }
 
     /**
